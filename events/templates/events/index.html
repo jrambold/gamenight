@@ -3,6 +3,7 @@
 {% block content %}
 	<h1>Welcome to Game Night</h1>
 	<h3>Your game night event planner!</h3>
+	<a href="{% url 'events:createEvent' %}">Create Event</a>
 	<table>
 		<tr>
 			<td>
@@ -17,8 +18,6 @@
 					<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a> {{ event.occuring }}</p>
 				{% endfor %}
 			</td>
-			<td>Past Events</td>
-			<td><a href="{% url 'events:createEvent' %}">Create Event</a></td>
 			<td>
 				Friends:
 				{% for friend in friends %}
