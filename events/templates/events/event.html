@@ -9,7 +9,7 @@
   <p>{{ event.description }}</p>
   <h4>Invited</h4>
   <ul>
-  {% for person in event.member.all() %}
+  {% for person in members %}
       <li>{{ person }}</li>
   {% endfor %}
   </ul>

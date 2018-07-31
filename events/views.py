@@ -37,7 +37,8 @@ def event_show(request, event_id):
     if request.user.is_authenticated:
         event = get_object_or_404(UserEvent, pk=event_id)
         if request.user.player == event.owner or request.user.player in event.member.all():
-            return render(request, 'events/event.html', { 'event': event })
+            members = event.member.all()
+            return render(request, 'events/event.html', { 'event': event, 'members': members })
     return redirect('/')
 
 def new_user(request):
