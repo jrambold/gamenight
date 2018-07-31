@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth import login, authenticate, logout
@@ -7,6 +7,7 @@ from events.models import Player, UserEvent, FriendRequest, NewMemberRequest
 from events.forms import SignUpForm, UserEventForm, AddFriendForm, AcceptFriendForm
 from events.utils import welcome_email, new_event_email, friend_invite_email
 from datetime import datetime
+import django_rq
 
 # Create your views here.
 
