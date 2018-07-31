@@ -1,11 +1,10 @@
 {% extends "events/base.html" %}
 
 {% block content %}
-	<h1>{{ event.title }}</h1>
-	<h2>{{ event.occuring }}</h2>
-  <h3>{{ event.owner }}</h3>
-  <p>{{ event.location }}</p>
-  <br>
+	<h1>{{ event.name }}</h1>
+	<h4>Date and Time: {{ event.occuring }}</h4>
+  <h5>Hosted by: {{ event.owner }}</h5>
+  <h5>Location: {{ event.location }}</h5>
   <p>{{ event.description }}</p>
   <h4>Invited</h4>
   <ul>
