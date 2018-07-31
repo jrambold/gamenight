@@ -1,0 +1,8 @@
+<form method="post" action="{% url 'events:login' %}">
+  {% csrf_token %}
+  <li>{{ login_form.username.label_tag }}</li>
+  <li>{{ login_form.username }}</li>
+  <li>{{ login_form.password.label_tag }}</li>
+  <li>{{ login_form.password }}</li>
+  <li><input type="submit" value="Login" /></li>
+</form>

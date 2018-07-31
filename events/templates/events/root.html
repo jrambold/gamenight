@@ -1,0 +1,9 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+	<h1>Welcome to Game Night</h1>
+	<h3>Your game night event planner!</h3>
+	{% if user.is_authenticated %}
+		<h2><a href="/events/">My Dashboard</a></h2>
+	{% endif %}
+{% endblock %}

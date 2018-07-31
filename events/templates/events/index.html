@@ -1,0 +1,43 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+	<h1>Welcome to Game Night</h1>
+	<h3>Your game night event planner!</h3>
+	<table>
+		<tr>
+			<td>
+				Hosted Events
+				
+			</td>
+			<td>Upcoming Events</td>
+			<td>Past Events</td>
+			<td><a href="{% url 'events:createEvent' %}">Create Event</a></td>
+			<td>
+				Friends:
+				{% for friend in friends %}
+				<p>{{ friend }}</p>
+				{% endfor %}
+			</td>
+			<td>
+				<form method="post" action="{% url 'events:friendRequest' %}">
+					{% csrf_token %}
+					<p>{{ form.friend.label_tag }}
+					{{ form.friend }}</p>
+					<p>{{ form.efriend.label_tag }}
+					{{ form.efriend }}</p>
+					<p><input type="submit" value="Send Request" /></p>
+				</form>
+				{% if has_frequests %}
+					<form method="post" action="{% url 'events:acceptFRequest' %}">
+						{% csrf_token %}
+						<p>{{ frequests.requests.label_tag }}
+						{{ frequests.requests }}</p>
+						<p><input type="submit" value="Submit" /></p>
+					</form>
+				{% endif %}
+			</td>
+		</tr>
+	</table>
+	<form method="post" action="{% url 'events:createEvent' %}">
+
+{% endblock %}

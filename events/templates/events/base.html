@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>{% block title %}Game Night{% endblock %}</title>
+</head>
+
+<body>
+    <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+          {% if user.is_authenticated %}
+            <li>{{ user.username }}</li>
+            <li><a href="/events/logout">Logout</a></li>
+          {% else %}
+            <li>Login</li>
+            {% include "events/form_login.html" %}
+            <li><a href="/events/signup">Sign Up</li>
+          {% endif %}
+          <li><a href="/">Home</a></li>
+          <li><a href="/events/">Events</a></li>
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
