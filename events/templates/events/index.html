@@ -7,15 +7,22 @@
 		<tr>
 			<td>
 				Hosted Events
-				
+				{% for event in hosting %}
+					<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a> {{ event.occuring }}</p>
+				{% endfor %}
 			</td>
-			<td>Upcoming Events</td>
+			<td>
+				Upcoming Events
+				{% for event in invited %}
+					<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a> {{ event.occuring }}</p>
+				{% endfor %}
+			</td>
 			<td>Past Events</td>
 			<td><a href="{% url 'events:createEvent' %}">Create Event</a></td>
 			<td>
 				Friends:
 				{% for friend in friends %}
-				<p>{{ friend }}</p>
+					<p>{{ friend }}</p>
 				{% endfor %}
 			</td>
 			<td>

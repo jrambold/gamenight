@@ -20,7 +20,23 @@ def index(request):
             has_frequests = len(request.user.player.accepter.all())>0
             frequests = AcceptFriendForm(request.user)
             friends = request.user.player.friends.all()
-            return render(request, 'events/index.html', {'form': form, 'friends': friends, 'frequests': frequests, 'has_frequests': has_frequests})
+            hosting = request.user.player.owner.all().order_by('-occuring')
+            invited = request.user.player.member.all().order_by('-occuring')
+            return render(request, 'events/index.html', {
+                'form': form,
+                'friends': friends,
+                'frequests': frequests,
+                'has_frequests': has_frequests,
+                'hosting': hosting,
+                'invited': invited,
+            })
+    return redirect('/')
+
+def event_show(request, event_id):
+    if request.user.is_authenticated:
+        event = get_object_or_404(UserEvent, pk=event_id)
+        if request.user.player == event.owner or request.user.player in event.member.all():
+            return render(request, 'events/event.html', { 'event': event })
     return redirect('/')
 
 def new_user(request):
@@ -38,8 +54,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            # django_rq.enqueue(welcome_email, user.email, user.player.activation)
-            welcome_email(user.email, user.player.activation)
+            django_rq.enqueue(welcome_email, user.email, user.player.activation)
             return redirect('/')
     else:
         form = SignUpForm()
@@ -97,10 +112,9 @@ def create_event(request):
             event.save()
             event.member.add(*list(cd['attendees']))
             event.save()
-            # django_rq.enqueue(new_event_email, event)
-            new_event_email(event)
+            django_rq.enqueue(new_event_email, event)
 
-            return HttpResponse("working?")
+            return redirect(f"/events/event/{event.id}")
         return HttpResponse('Invalid Form')
 
 def friend_request(request):
@@ -122,8 +136,7 @@ def friend_request(request):
                 except:
                     try:
                         frequest = NewMemberRequest(inviter=request.user.player, email=cd['efriend'])
-                        # django_rq.enqueue(friend_invite_email, cd['efriend'])
-                        friend_invite_email(cd['efriend'])
+                        django_rq.enqueue(friend_invite_email, cd['efriend'])
                     except:
                         message = "invalid username or email"
     return redirect('/events/')
