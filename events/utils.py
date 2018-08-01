@@ -21,7 +21,7 @@ def new_event_email(event):
 
             {event.description}
 
-            url to be added here""",
+            https://game-nighter.herokuapp.com/events/event/{event.id}/""",
             f"{event.owner.username}@game-nighter.herokuapp.com",
             [member.user.email],
             fail_silently=False)
