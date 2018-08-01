@@ -44,3 +44,16 @@ class AcceptFriendForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         super(AcceptFriendForm, self).__init__(*args, **kwargs)
         self.fields['requests'].queryset = user.player.accepter.all()
+
+class EventStatusForm(forms.Form):
+    ATTENDING = 'Attending'
+    MAYBE = 'Maybe'
+    PASSING = 'Passing'
+    AWAITING = 'Awaiting Response'
+    STATUS_CHOICES = (
+        (ATTENDING, 'Attending'),
+        (MAYBE, 'Maybe'),
+        (PASSING, 'Passing'),
+        (AWAITING, 'Awaiting Response')
+    )
+    status = forms.ChoiceField(label='Change Status', choices=STATUS_CHOICES)

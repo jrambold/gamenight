@@ -60,6 +60,24 @@ class UserEvent(models.Model):
 	def __str__(self):
 		return self.name
 
+class PlayerStatus(models.Model):
+	ATTENDING = 'Attending'
+	MAYBE = 'Maybe'
+	PASSING = 'Passing'
+	AWAITING = 'Awaiting Response'
+	STATUS_CHOICES = (
+		(ATTENDING, 'Attending'),
+		(MAYBE, 'Maybe'),
+		(PASSING, 'Passing'),
+		(AWAITING, 'Awaiting Response')
+	)
+	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=AWAITING)
+	event = models.ForeignKey(UserEvent, on_delete=models.CASCADE, related_name='memberstatus')
+	player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='memberstatus')
+
+	def __str__(self):
+		return f"{self.event.name} {self.player.username}"
+
 class InvitedUser(models.Model):
 	name = models.CharField(max_length=200)
 	email = models.EmailField(max_length=254)

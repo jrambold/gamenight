@@ -3,8 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User, Group
-from events.models import Player, UserEvent, FriendRequest, NewMemberRequest
-from events.forms import SignUpForm, UserEventForm, AddFriendForm, AcceptFriendForm
+from events.models import Player, UserEvent, FriendRequest, NewMemberRequest, PlayerStatus
+from events.forms import SignUpForm, UserEventForm, AddFriendForm, AcceptFriendForm, EventStatusForm
 from events.utils import welcome_email, new_event_email, friend_invite_email
 from datetime import datetime
 import django_rq
@@ -37,8 +37,10 @@ def event_show(request, event_id):
     if request.user.is_authenticated:
         event = get_object_or_404(UserEvent, pk=event_id)
         if request.user.player == event.owner or request.user.player in event.member.all():
-            members = event.member.all()
-            return render(request, 'events/event.html', { 'event': event, 'members': members })
+            members = event.memberstatus.all()
+            form = EventStatusForm()
+            status = event.memberstatus.get(player=request.user.player).status
+            return render(request, 'events/event.html', { 'event': event, 'members': members, 'form': form, 'status': status })
     return redirect('/')
 
 def new_user(request):
@@ -114,6 +116,11 @@ def create_event(request):
             event.save()
             event.member.add(*list(cd['attendees']))
             event.save()
+            status = PlayerStatus(player=event.owner, event=event, status='Attending')
+            status.save()
+            for member in event.member.all():
+                status = PlayerStatus(player=member, event=event)
+                status.save()
             django_rq.enqueue(new_event_email, event)
 
             return redirect(f"/events/event/{event.id}")
@@ -155,3 +162,14 @@ def frequest(request):
             for friend_request in FriendRequest.objects.filter(accepter=request.user.player):
                 friend_request.delete()
     return redirect('/events/')
+
+def change_status(request, event_id):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = EventStatusForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            event = get_object_or_404(UserEvent, pk=event_id)
+            status = event.memberstatus.get(player=request.user.player)
+            status.status = cd['status']
+            status.save()
+    return redirect(f"/events/event/{event_id}/")
