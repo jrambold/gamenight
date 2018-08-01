@@ -1,8 +1,3 @@
-/* stylesheet needs to save before refreshing
-
-Notes/Convo
-i don't know what's up with that, but it's something defaulted in the forms. i'm leaving it for knowit
-*/
 
 input[name=username], input[name=password1], input[name=password2]{
     display: block;
