@@ -6,22 +6,22 @@ from events.widgets import SelectTimeWidget
 
 
 class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address.')
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address.', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=200)
-    password = forms.CharField(max_length=200, label='Password', widget=forms.PasswordInput)
+    username = forms.CharField(label='Username', max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(max_length=200, label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 class UserEventForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=200)
-    location = forms.CharField(label='Location', max_length=200)
-    description = forms.CharField(label='Description')
+    name = forms.CharField(label='Name', max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    location = forms.CharField(label='Location', max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(label='Description', widget=forms.TextInput(attrs={'class': 'form-control'}))
     event_date = forms.DateField(label='Date of the Event', widget=forms.SelectDateWidget(
         empty_label=("Choose Year", "Choose Month", "Choose Day"),
     ))
@@ -35,8 +35,8 @@ class UserEventForm(forms.Form):
         self.fields['attendees'].queryset = user.player.friends.all()
 
 class AddFriendForm(forms.Form):
-    friend = forms.CharField(label='Add Friend by Username', max_length=200, required=False)
-    efriend = forms.CharField(label='Add Friend by Email', max_length=200, required=False)
+    friend = forms.CharField(label='Add Friend by Username', max_length=200, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    efriend = forms.CharField(label='Add Friend by Email', max_length=200, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 class AcceptFriendForm(forms.Form):
     requests = forms.ModelMultipleChoiceField(label='Accept/Deny Friend Requests', queryset=None, required=False, widget = forms.CheckboxSelectMultiple)

@@ -7,8 +7,9 @@
   {# Load CSS and JavaScript #}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
+  {% load static %}
 
-    <link rel="stylesheet" href="{% static 'events/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'events/style.css' %}"  />
     <title>{% block title %}Game Night{% endblock %}</title>
 </head>
 
@@ -20,7 +21,6 @@
             <li>{{ user.username }}</li>
             <li><a href="/events/logout">Logout</a></li>
           {% else %}
-            <li>Login</li>
             {% include "events/form_login.html" %}
             <li><a href="/events/signup">Sign Up</li>
           {% endif %}
@@ -29,9 +29,12 @@
         </ul>
         {% endblock %}
     </div>
+    
+	<div class="content">
+    <div class="container">
 
-    <div id="content">
         {% block content %}{% endblock %}
     </div>
+  </div>
 </body>
 </html>

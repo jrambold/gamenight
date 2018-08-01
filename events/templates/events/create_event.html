@@ -1,27 +1,29 @@
 {% extends "events/base.html" %}
 
 {% block content %}
-  <h2>New Event</h2>
-  <form method="post" action="{% url 'events:createEvent' %}">
-    {% csrf_token %}
-    <li>{{ form.name.label_tag }}</li>
-    <li>{{ form.name }}</li>
-    <li>{{ form.location.label_tag }}</li>
-    <li>{{ form.location }}</li>
-    <li>{{ form.description.label_tag }}</li>
-    <li>{{ form.description }}</li>
-    <li>{{ form.event_date.label_tag }}</li>
-    <li>{{ form.event_date }}</li>
-    <li>{{ form.event_time.label_tag }}</li>
-    <li>{{ form.event_time }}</li>
-    <li>{{ form.attendees.label_tag }}</li>
-    {{ form.attendees }}
-    <!-- <div id='newUser'>
-      <li>{{ form.invite_name.label_tag }}</li>
-      <li>{{ form.invite_name }}</li>
-      <li>{{ form.invite_email.label_tag }}</li>
-      <li>{{ form.invite_email }}</li>
-    </div> -->
-    <li><input type="submit" value="Create Event" /></li>
-  </form>
+<div class="form-group">
+    <h2>New Event</h2>
+    <form method="post" action="{% url 'events:createEvent' %}">
+      {% csrf_token %}
+      <label>{{ form.name.label_tag }}</label>
+      <li>{{ form.name }}</li>
+      <li>{{ form.location.label_tag }}</li>
+      <li>{{ form.location }}</li>
+      <li>{{ form.description.label_tag }}</li>
+      <li>{{ form.description }}</li>
+      <li>{{ form.event_date.label_tag }}</li>
+      <li>{{ form.event_date }}</li>
+      <li>{{ form.event_time.label_tag }}</li>
+      <li>{{ form.event_time }}</li>
+      <li>{{ form.attendees.label_tag }}</li>
+      {{ form.attendees }}
+      <!-- <div id='newUser'>
+        <li>{{ form.invite_name.label_tag }}</li>
+        <li>{{ form.invite_name }}</li>
+        <li>{{ form.invite_email.label_tag }}</li>
+        <li>{{ form.invite_email }}</li>
+      </div> -->
+      <li><input type="submit" class="btn btn-primary" value="Create Event" /></li>
+    </form>
+  </div>
 {% endblock %}

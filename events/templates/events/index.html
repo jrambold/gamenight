@@ -1,49 +1,76 @@
 {% extends "events/base.html" %}
 
 {% block content %}
-	<h1>Welcome to Game Night</h1>
-	<h3>Your game night event planner!</h3>
-	<a href="{% url 'events:createEvent' %}">Create Event</a>
-	<table>
-		<tr>
-			<td>
-				Hosted Events
-				{% for event in hosting %}
-					<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a> {{ event.occuring }}</p>
-				{% endfor %}
-			</td>
-			<td>
-				Upcoming Events
-				{% for event in invited %}
-					<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a> {{ event.occuring }}</p>
-				{% endfor %}
-			</td>
-			<td>
-				Friends:
-				{% for friend in friends %}
-					<p>{{ friend }}</p>
-				{% endfor %}
-			</td>
-			<td>
-				<form method="post" action="{% url 'events:friendRequest' %}">
-					{% csrf_token %}
-					<p>{{ form.friend.label_tag }}
-					{{ form.friend }}</p>
-					<p>{{ form.efriend.label_tag }}
-					{{ form.efriend }}</p>
-					<p><input type="submit" value="Send Request" /></p>
-				</form>
-				{% if has_frequests %}
-					<form method="post" action="{% url 'events:acceptFRequest' %}">
-						{% csrf_token %}
-						<p>{{ frequests.requests.label_tag }}
-						{{ frequests.requests }}</p>
-						<p><input type="submit" value="Submit" /></p>
-					</form>
-				{% endif %}
-			</td>
-		</tr>
+
+
+	<h1>Dashboard</h1>
+	<hr/>
+
+
+	<a class="btn btn-primary" href="{% url 'events:createEvent' %}">Create Event</a>
+	<hr/>
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Hosted Events</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for event in hosting %}
+			<tr>
+				<td>
+					<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a></p>
+				</td>
+				<td><p>{{ event.occuring }}</p></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<thead class="thead-dark">
+			<th scope="col">Upcoming Events</th>
+			<th scope="col"></th>
+		</thead>
+		<tbody>
+			{% for event in invited %}
+				<tr>
+					<td>
+						<p><a href="{% url 'events:eventShow' event_id=event.id %}">{{ event.name }}</a></p>
+					</td>
+					<td><p>{{ event.occuring }}</p></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Friends</th>
+				<th scope"col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for friend in friends %}
+			<tr>
+				<td><p>{{ friend }}</p></td><td></td>
+
+			</tr>
+			{% endfor %}
+		</tbody>
+
 	</table>
-	<form method="post" action="{% url 'events:createEvent' %}">
+	<form method="post" action="{% url 'events:friendRequest' %}">
+		{% csrf_token %}
+		<p>{{ form.friend.label_tag }}
+		{{ form.friend }}</p>
+		<p>{{ form.efriend.label_tag }}
+		{{ form.efriend }}</p>
+		<p><input type="submit" class="btn btn-primary" value="Send Request" /></p>
+	</form>
+	{% if has_frequests %}
+		<form method="post" action="{% url 'events:acceptFRequest' %}">
+			{% csrf_token %}
+			<p>{{ frequests.requests.label_tag }}
+			{{ frequests.requests }}</p>
+			<p><input class="btn btn-primary" type="submit" value="Submit" /></p>
+		</form>
+	{% endif %}
 
 {% endblock %}
