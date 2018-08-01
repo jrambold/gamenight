@@ -25,7 +25,7 @@
 		<h5>{{ event.owner }}</h5>
 	</div>
 </div>
-<div class="row centered"  style="background-color:#e4e4e4">
+<div class="row centered" style="background-color:#e4e4e4">
 	<div class="col-md-6 col">
 	  <h4>Location</h4>
 		<h5>{{ event.location }}</h5>
@@ -43,6 +43,23 @@
 	<div class="col">
 		<h4>Description</h4>
 	  <h5>{{ event.description }}</h5>
+	</div>
+</div>
+<div class="row centered" style="background-color:#e4e4e4">
+	<div class="col">
+		<h4>Games</h4>
+		<h5>
+			<form method="post" action="{% url 'events:addGame' event.id %}">
+				{% csrf_token %}
+				{{ gameform.name }}
+				<input type="submit" class="btn btn-primary" value="Add Game" />
+			</form>
+		</h5>
+		<ul>
+		  {% for game in games %}
+		      <p>{{ game.name }}</p>
+		  {% endfor %}
+	  </ul>
 	</div>
 </div>
 </section>

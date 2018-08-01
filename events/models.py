@@ -49,6 +49,9 @@ class NewMemberRequest(models.Model):
 	def __str__(self):
 		return f"{self.requester} wants to add {self.email}"
 
+class Game(models.Model):
+	name = models.CharField(max_length=200)
+
 class UserEvent(models.Model):
 	name = models.CharField(max_length=200)
 	location = models.CharField(max_length=200)
@@ -56,6 +59,7 @@ class UserEvent(models.Model):
 	owner = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='owner')
 	member = models.ManyToManyField(Player, related_name='member')
 	occuring = models.DateTimeField(auto_now=False, auto_now_add=False)
+	games = models.ManyToManyField(Game, related_name='userevent')
 
 	def __str__(self):
 		return self.name

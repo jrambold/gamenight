@@ -3,11 +3,12 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User, Group
-from events.models import Player, UserEvent, FriendRequest, NewMemberRequest, PlayerStatus
-from events.forms import SignUpForm, UserEventForm, AddFriendForm, AcceptFriendForm, EventStatusForm
+from events.models import Player, UserEvent, FriendRequest, NewMemberRequest, PlayerStatus, Game
+from events.forms import SignUpForm, UserEventForm, AddFriendForm, AcceptFriendForm, EventStatusForm, GameForm
 from events.utils import welcome_email, new_event_email, friend_invite_email
 from datetime import datetime
 import django_rq
+from boardgamegeek import BGGClient
 
 # Create your views here.
 
@@ -40,7 +41,9 @@ def event_show(request, event_id):
             members = event.memberstatus.all()
             form = EventStatusForm()
             status = event.memberstatus.get(player=request.user.player).status
-            return render(request, 'events/event.html', { 'event': event, 'members': members, 'form': form, 'status': status })
+            gameform = GameForm()
+            games = event.games.all()
+            return render(request, 'events/event.html', { 'event': event, 'members': members, 'form': form, 'status': status, 'gameform': gameform, 'games': games })
     return redirect('/')
 
 def new_user(request):
@@ -172,4 +175,21 @@ def change_status(request, event_id):
             status = event.memberstatus.get(player=request.user.player)
             status.status = cd['status']
             status.save()
+    return redirect(f"/events/event/{event_id}/")
+
+def add_game(request, event_id):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = GameForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            event = get_object_or_404(UserEvent, pk=event_id)
+            try:
+                game = Game.get(name=cd['name'])
+            except:
+                game = Game(name=cd['name'])
+                game.save()
+            try:
+                event.games.get(name=game.name)
+            except:
+                event.games.add(game)
     return redirect(f"/events/event/{event_id}/")

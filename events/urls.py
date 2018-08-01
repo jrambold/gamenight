@@ -13,5 +13,6 @@ urlpatterns = [
     path('user/create_event/', views.create_event, name='createEvent'),
     path('user/friend_request/', views.friend_request, name='friendRequest'),
     path('user/frequest/', views.frequest, name='acceptFRequest'),
-    path('event/<int:event_id>/change_status/', views.change_status, name='changeStatus')
+    path('event/<int:event_id>/change_status/', views.change_status, name='changeStatus'),
+    path('event/<int:event_id>/add_game/', views.add_game, name='addGame'),
 ]

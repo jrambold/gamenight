@@ -1,3 +1,4 @@
+boardgamegeek2==0.0.1
 certifi==2018.4.16
 chardet==3.0.4
 click==6.7
@@ -7,7 +8,6 @@ Django==2.0.5
 django-bootstrap3==10.0.1
 django-rq==1.1.0
 django-toolbelt==0.0.1
-djangorestframework==3.8.2
 gunicorn==19.8.1
 heroku==0.1.4
 idna==2.6
@@ -15,6 +15,7 @@ python-dateutil==1.5
 pytz==2018.4
 redis==2.10.6
 requests==2.18.4
+requests-cache==0.4.13
 rq==0.11.0
 static3==0.7.0
 urllib3==1.22
