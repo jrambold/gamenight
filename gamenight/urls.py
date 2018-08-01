@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	path('events/', include('events.urls')),
 	path('', root, name='root'),
+    path('django-rq/', include('django_rq.urls')),
 ]
