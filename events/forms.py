@@ -57,3 +57,6 @@ class EventStatusForm(forms.Form):
         (AWAITING, 'Awaiting Response')
     )
     status = forms.ChoiceField(label='Change Status', choices=STATUS_CHOICES)
+
+class GameForm(forms.Form):
+    name = forms.CharField(label='Add Game', max_length=200)
