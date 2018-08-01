@@ -5,6 +5,14 @@
 <div class="row centered" style="background-color:#a8c7f4">
 	<div class="col">
 		<h1>Event Name: {{ event.name }}</h1>
+		<h4>You are {{ status }}</h4>
+	  <h5>
+			<form method="post" action="{% url 'events:changeStatus' event.id %}">
+				{% csrf_token %}
+				{{ form.status }}
+				<input type="submit" class="btn btn-primary" value="Change Status" />
+			</form>
+		</h5>
 	</div>
 </div>
 <div class="row centered">
@@ -25,8 +33,8 @@
 	<div class="col-md-6 col">
 		<h4>Invited</h4>
 	  <ul>
-	  {% for person in members %}
-	      <p>{{ person }}</p>
+	  {% for status in members %}
+	      <p>{{ status.player }} ({{ status.status }})</p>
 	  {% endfor %}
 	  </ul>
 	</div>
@@ -35,7 +43,6 @@
 	<div class="col">
 		<h4>Description</h4>
 	  <h5>{{ event.description }}</h5>
-
 	</div>
 </div>
 </section>
