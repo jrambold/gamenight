@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'events',
     'dj_database_url',
     'django_rq',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
