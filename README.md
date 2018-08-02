@@ -95,9 +95,6 @@ Use the GitHub UI to submit a new pull request against upstream/master. To incre
 * [Django](https://www.djangoproject.com/) - Web Framework
 * [Bootstrap](https://getbootstrap.com/) - Bootstrap for styling
 
-## Authors
-
-* **Margaret Williford**
 
 ## Acknowledgments
 
